@@ -1,0 +1,750 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/ui-libraries/main/drawing/void/source.lua"))()
+local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
+
+-- crosshair lib
+local plr = game.Players.LocalPlayer
+local mouse = plr:GetMouse()
+local Runserv = game:GetService("RunService")
+cross = Drawing.new("Circle")
+cross.Color = Color3.fromRGB(255, 255, 255)
+cross.Thickness = 0.1
+cross.NumSides = 12
+cross.Radius = 2
+cross.Visible = false
+cross.Filled = true
+Runserv.RenderStepped:Connect(function()
+    cross.Position = Vector2.new(mouse.X,mouse.Y+35)
+end)
+-- aim lib
+local aimbot = loadstring(game:HttpGet'https://github.com/RunDTM/Zeerox-Aimbot/raw/main/library.lua')()
+aimbot.Enabled = false -- is aimbot enabled
+aimbot.Key = Enum.UserInputType.MouseButton2 -- aimbot key
+aimbot.Smoothing = 3 -- aimbot smoothness
+aimbot.Offset = {0, 0} -- offset for aimbot
+aimbot.TeamCheck = false -- is team checking enabled
+aimbot.AliveCheck = true -- is player alive
+aimbot.VisibilityCheck = false -- is player visible
+aimbot.Players = true -- is aimbot for default player characters enabled
+aimbot.PlayerPart = 'Head' -- part of default player character to aim
+aimbot.FOV = 50 -- aimbot fov
+aimbot.FOVCircleColor = Color3.fromRGB(255, 255, 255) -- color of fov circle
+aimbot.ShowFOV = false -- is fov circle visible
+
+local watermark = library:Watermark('baseplate | Arsenal | '.. plr.Name)
+-- watermark:Set("Watermark Set")
+-- watermark:Hide() -- toggles watermark
+
+local main = library:Load{
+    Name = "baseplate.win for Arsenal",
+    SizeX = 550,
+    SizeY = 500,
+    Theme = "Default",
+    Extension = "json", -- config file extension
+    Folder = "baseplatecfg" -- config folder name
+}
+-- library.Extension = "txt" (config file extension)
+-- library.Folder = "config folder name"
+
+
+local aim = main:Tab("Aimbot")
+
+local aimsec = aim:Section{
+    Name = "Aimbot",
+    Side = "Left"
+}
+
+local aimt = aimsec:Toggle{
+    Name = "Aimbot",
+    Flag = "Enable AIM",
+    --Default = true,
+    Callback  = function(bool)
+        aimbot.Enabled = bool
+    end
+}
+aimt:Keybind{
+    Default = Enum.KeyCode.F2,
+    Blacklist = {Enum.UserInputType.MouseButton1},
+    Flag = "AIM Keybind",
+    Mode = "Toggle", -- mode to nil if u dont want it to toggle the toggle
+    Callback = function(key, fromsetting)
+        if fromsetting then
+            --print("Toggle 2 Keybind 1 is now " .. tostring(key))
+        else
+            --print("Toggle 2 Keybind 1 was pressed")
+        end
+    end
+}
+
+local aseperator = aimsec:Separator("Settings")
+
+local sslider = aimsec:Slider{
+    Name = "Smooth",
+    Text = "[value]/10",
+    Default = 0,
+    Min = 0,
+    Max = 10,
+    Float = 1,
+    Flag = "Smoothing",
+    Callback = function(value)
+        aimbot.Smoothing = value
+    end
+}
+--fov
+local fovt = aimsec:Toggle{
+    Name = "FOV",
+    Flag = "ShowFOV",
+    --Default = true,
+    Callback  = function(bool)
+        aimbot.ShowFOV = bool
+    end
+}
+local fovpicker1 = fovt:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "FovColor", 
+    Callback = function(color)
+        aimbot.FOVCircleColor = color
+    end
+}
+local fslider = aimsec:Slider{
+    Name = "FOV size",
+    Text = "[value]/360",
+    Default = 50,
+    Min = 0,
+    Max = 360,
+    Float = 1,
+    Flag = "FovSize",
+    Callback = function(value)
+        aimbot.FOV = value
+    end
+}
+--hitbox
+local adropdown = aimsec:Dropdown{
+    Name = "Hitbox",
+    Default = "Head",
+    Content = {
+        "Head",
+        "HumanoidRootPart"
+    },
+    Flag = "HitboxPart",
+    Callback = function(option)
+        aimbot.PlayerPart = tostring(option)
+    end
+}
+--vcheck
+local vict = aimsec:Toggle{
+    Name = "Visible check",
+    Flag = "Aim on visibleOnly",
+    --Default = true,
+    Callback  = function(bool)
+        aimbot.VisibilityCheck = bool
+    end
+}
+--teamcheck
+local tect = aimsec:Toggle{
+    Name = "Team check",
+    Flag = "dont Aim on tean",
+    --Default = true,
+    Callback  = function(bool)
+        aimbot.TeamCheck = bool
+    end
+}
+
+local crosec = aim:Section{
+    Name = "Crosshair",
+    Side = "Right"
+}
+--ch
+local cht = crosec:Toggle{
+    Name = "Enable",
+    Flag = "ShowCH",
+    --Default = true,
+    Callback  = function(bool)
+        cross.Visible = bool
+    end
+}
+local chpicker1 = cht:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        cross.Color = color
+    end
+}
+local chf = crosec:Toggle{
+    Name = "Filled",
+    Flag = "FillCH",
+    --Default = true,
+    Callback  = function(bool)
+        cross.Filled = bool
+    end
+}
+local chnslider = crosec:Slider{
+    Name = "Sides",
+    Text = "[value]/12",
+    Default = 4,
+    Min = 4,
+    Max = 12,
+    Float = 1,
+    Flag = "CNumSize",
+    Callback = function(value)
+        cross.NumSides = value
+    end
+}
+local chrslider = crosec:Slider{
+    Name = "Radius",
+    Text = "[value]/10",
+    Default = 2,
+    Min = 1,
+    Max = 10,
+    Float = 1,
+    Flag = "CRadius",
+    Callback = function(value)
+        cross.Radius = value
+    end
+}
+
+-- ESPCONF
+
+local visuals = main:Tab("Visuals")
+
+local espsec = visuals:Section{
+    Name = "ESP",
+    Side = "Left"
+}
+local seperator1 = espsec:Separator("Enemy")
+local eesp = espsec:Toggle{
+    Name = "Enable",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.enabled = bool
+    end
+}
+local epicker1 = eesp:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.enemy.boxColor = { color, 1 }
+        Sense.teamSettings.enemy.tracerColor = { color, 1 }
+        Sense.teamSettings.enemy.nameColor = { color, 1 }
+        Sense.teamSettings.enemy.distanceColor = { color, 1 }
+    end
+}
+local ebox = espsec:Toggle{
+    Name = "Boxes",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.box = bool
+    end
+}
+local enam = espsec:Toggle{
+    Name = "Names",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.name = bool
+    end
+}
+local ehlt = espsec:Toggle{
+    Name = "Health",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.healthBar = bool
+    end
+}
+local edis = espsec:Toggle{
+    Name = "Distance",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.distance = bool
+    end
+}
+local elin = espsec:Toggle{
+    Name = "Lines",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.tracer = bool
+    end
+}
+local seperator1 = espsec:Separator("Team")
+--team
+local etch = espsec:Toggle{
+    Name = "Team check",
+    Flag = "Show team",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.enabled = bool
+    end
+}
+local tpicker1 = etch:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.boxColor = { color, 1 }
+        Sense.teamSettings.friendly.tracerColor = { color, 1 }
+        Sense.teamSettings.friendly.nameColor = { color, 1 }
+        Sense.teamSettings.friendly.distanceColor = { color, 1 }
+    end
+}
+local tbox = espsec:Toggle{
+    Name = "Boxes",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.box = bool
+    end
+}
+local tnam = espsec:Toggle{
+    Name = "Names",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.name = bool
+    end
+}
+local thlt = espsec:Toggle{
+    Name = "Health",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.healthBar = bool
+    end
+}
+local tdis = espsec:Toggle{
+    Name = "Distance",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.distance = bool
+    end
+}
+local tlin = espsec:Toggle{
+    Name = "Lines",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.tracer = bool
+    end
+}
+
+local esp2sec = visuals:Section{
+    Name = "Other ESP",
+    Side = "Right"
+}
+local seperator2 = esp2sec:Separator("Esp Config")
+local tracerdrop = esp2sec:Dropdown{
+    Name = "Tracer origin",
+    --Default = "Option 1",
+    Content = {
+        "Bottom",
+        "Top",
+        "Center"
+    },
+    Flag = "Dropdown 1",
+    Callback = function(option)
+        Sense.teamSettings.enemy.tracerOrigin = tostring(option)
+        Sense.teamSettings.friendly.tracerOrigin = tostring(option)
+    end
+}
+local seperator2 = esp2sec:Separator("Enemy")
+local eosa = esp2sec:Toggle{
+    Name = "Off screen arrows",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.offScreenArrow = bool
+    end
+}
+local epicker2 = eosa:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.enemy.offScreenArrowColor = { color, 1 }
+    end
+}
+local ewea = esp2sec:Toggle{
+    Name = "Weapons",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.weapon = bool
+    end
+}
+local epicker3 = ewea:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.enemy.weaponColor = { color, 1 }
+    end
+}
+local seperator2 = esp2sec:Separator("Team")
+--team
+local tosa = esp2sec:Toggle{
+    Name = "Off screen arrows",
+    Flag = "Show team",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.offScreenArrow = bool
+    end
+}
+local tpicker2 = tosa:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.offScreenArrowColor = { color, 1 }
+    end
+}
+local twea = esp2sec:Toggle{
+    Name = "Weapons",
+    Flag = "Show team",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.weapon = bool
+    end
+}
+local tpicker2 = twea:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.weaponColor = { color, 1 }
+    end
+}
+
+-- ////////////////////////////////////////////////// misc
+local misc = main:Tab("Misc")
+local mc = misc:Section{
+    Name = "Other cheats",
+    Side = "Left"
+}
+local nct = false
+--
+game:GetService("RunService").Stepped:Connect(function()
+   if nct then
+       pcall(function()
+           for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+               if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                   v.CanCollide = false
+               end
+           end
+       end)
+   end
+end)--
+local Loop = game:GetService('RunService').Stepped:connect(function()
+            if nct then
+                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        if v.CanCollide ~= not nct then
+                            v.CanCollide = not nct
+                        end
+                    end
+                end
+            end
+        end)
+local nclt = mc:Toggle{
+    Name = "Noclip (detected)",
+    Flag = "nc",
+    --Default = true,
+    Callback  = function(bool)
+        nct = bool
+    end
+}
+nclt:Keybind{
+    Default = Enum.KeyCode.X,
+    Blacklist = {Enum.UserInputType.MouseButton1},
+    Flag = "NC Keybind",
+    Mode = "Toggle", -- mode to nil if u dont want it to toggle the toggle
+    Callback = function(key, fromsetting)
+        if fromsetting then
+            --print("Toggle 2 Keybind 1 is now " .. tostring(key))
+        else
+            --print("Toggle 2 Keybind 1 was pressed")
+        end
+    end
+}
+--jump
+game:GetService("UserInputService").JumpRequest:Connect(function()
+     if InfiniteJumpEnabled then
+         plr.Character:WaitForChild("Humanoid"):ChangeState("Jumping")
+     end
+end)
+local ijpt = mc:Toggle{
+    Name = "Infinite jump",
+    Flag = "ij",
+    --Default = true,
+    Callback  = function(bool)
+        InfiniteJumpEnabled = bool
+    end
+}
+ijpt:Keybind{
+    Default = Enum.KeyCode.V,
+    Blacklist = {Enum.UserInputType.MouseButton1},
+    Flag = "IJ Keybind",
+    Mode = "Toggle", -- mode to nil if u dont want it to toggle the toggle
+    Callback = function(key, fromsetting)
+        if fromsetting then
+            --print("Toggle 2 Keybind 1 is now " .. tostring(key))
+        else
+            --print("Toggle 2 Keybind 1 was pressed")
+        end
+    end
+}
+
+
+--library:SaveConfig("config", true) -- universal config
+--library:SaveConfig("config") -- game specific config
+--library:DeleteConfig("config", true) -- universal config
+--library:DeleteConfig("config") -- game specific config
+--library:GetConfigs(true) -- return universal and game specific configs (table)
+--library:GetConfigs() -- return game specific configs (table)
+--library:LoadConfig("config", true) -- load universal config
+--library:LoadConfig("config") -- load game specific config
+
+local configs = main:Tab("Configuration")
+
+local themes = configs:Section{Name = "Theme", Side = "Left"}
+
+local themepickers = {}
+
+local themelist = themes:Dropdown{
+    Name = "Theme",
+    Default = library.currenttheme,
+    Content = library:GetThemes(),
+    Flag = "Theme Dropdown",
+    Callback = function(option)
+        if option then
+            library:SetTheme(option)
+
+            for option, picker in next, themepickers do
+                picker:Set(library.theme[option])
+            end
+        end
+    end
+}
+
+library:ConfigIgnore("Theme Dropdown")
+
+local namebox = themes:Box{
+    Name = "Custom Theme Name",
+    Placeholder = "Custom Theme",
+    Flag = "Custom Theme"
+}
+
+library:ConfigIgnore("Custom Theme")
+
+themes:Button{
+    Name = "Save Custom Theme",
+    Callback = function()
+        if library:SaveCustomTheme(library.flags["Custom Theme"]) then
+            themelist:Refresh(library:GetThemes())
+            themelist:Set(library.flags["Custom Theme"])
+            namebox:Set("")
+        end
+    end
+}
+
+local customtheme = configs:Section{Name = "Custom Theme", Side = "Right"}
+
+themepickers["Accent"] = customtheme:ColorPicker{
+    Name = "Accent",
+    Default = library.theme["Accent"],
+    Flag = "Accent",
+    Callback = function(color)
+        library:ChangeThemeOption("Accent", color)
+    end
+}
+
+library:ConfigIgnore("Accent")
+
+themepickers["Window Background"] = customtheme:ColorPicker{
+    Name = "Window Background",
+    Default = library.theme["Window Background"],
+    Flag = "Window Background",
+    Callback = function(color)
+        library:ChangeThemeOption("Window Background", color)
+    end
+}
+
+library:ConfigIgnore("Window Background")
+
+themepickers["Window Border"] = customtheme:ColorPicker{
+    Name = "Window Border",
+    Default = library.theme["Window Border"],
+    Flag = "Window Border",
+    Callback = function(color)
+        library:ChangeThemeOption("Window Border", color)
+    end
+}
+
+library:ConfigIgnore("Window Border")
+
+themepickers["Tab Background"] = customtheme:ColorPicker{
+    Name = "Tab Background",
+    Default = library.theme["Tab Background"],
+    Flag = "Tab Background",
+    Callback = function(color)
+        library:ChangeThemeOption("Tab Background", color)
+    end
+}
+
+library:ConfigIgnore("Tab Background")
+
+themepickers["Tab Border"] = customtheme:ColorPicker{
+    Name = "Tab Border",
+    Default = library.theme["Tab Border"],
+    Flag = "Tab Border",
+    Callback = function(color)
+        library:ChangeThemeOption("Tab Border", color)
+    end
+}
+
+library:ConfigIgnore("Tab Border")
+
+themepickers["Tab Toggle Background"] = customtheme:ColorPicker{
+    Name = "Tab Toggle Background",
+    Default = library.theme["Tab Toggle Background"],
+    Flag = "Tab Toggle Background",
+    Callback = function(color)
+        library:ChangeThemeOption("Tab Toggle Background", color)
+    end
+}
+
+library:ConfigIgnore("Tab Toggle Background")
+
+themepickers["Section Background"] = customtheme:ColorPicker{
+    Name = "Section Background",
+    Default = library.theme["Section Background"],
+    Flag = "Section Background",
+    Callback = function(color)
+        library:ChangeThemeOption("Section Background", color)
+    end
+}
+
+library:ConfigIgnore("Section Background")
+
+themepickers["Section Border"] = customtheme:ColorPicker{
+    Name = "Section Border",
+    Default = library.theme["Section Border"],
+    Flag = "Section Border",
+    Callback = function(color)
+        library:ChangeThemeOption("Section Border", color)
+    end
+}
+
+library:ConfigIgnore("Section Border")
+
+themepickers["Text"] = customtheme:ColorPicker{
+    Name = "Text",
+    Default = library.theme["Text"],
+    Flag = "Text",
+    Callback = function(color)
+        library:ChangeThemeOption("Text", color)
+    end
+}
+
+library:ConfigIgnore("Text")
+
+themepickers["Disabled Text"] = customtheme:ColorPicker{
+    Name = "Disabled Text",
+    Default = library.theme["Disabled Text"],
+    Flag = "Disabled Text",
+    Callback = function(color)
+        library:ChangeThemeOption("Disabled Text", color)
+    end
+}
+
+library:ConfigIgnore("Disabled Text")
+
+themepickers["Object Background"] = customtheme:ColorPicker{
+    Name = "Object Background",
+    Default = library.theme["Object Background"],
+    Flag = "Object Background",
+    Callback = function(color)
+        library:ChangeThemeOption("Object Background", color)
+    end
+}
+
+library:ConfigIgnore("Object Background")
+
+themepickers["Object Border"] = customtheme:ColorPicker{
+    Name = "Object Border",
+    Default = library.theme["Object Border"],
+    Flag = "Object Border",
+    Callback = function(color)
+        library:ChangeThemeOption("Object Border", color)
+    end
+}
+
+library:ConfigIgnore("Object Border")
+
+themepickers["Dropdown Option Background"] = customtheme:ColorPicker{
+    Name = "Dropdown Option Background",
+    Default = library.theme["Dropdown Option Background"],
+    Flag = "Dropdown Option Background",
+    Callback = function(color)
+        library:ChangeThemeOption("Dropdown Option Background", color)
+    end
+}
+
+library:ConfigIgnore("Dropdown Option Background")
+
+local configsection = configs:Section{Name = "Configs", Side = "Left"}
+
+local configlist = configsection:Dropdown{
+    Name = "Configs",
+    Content = library:GetConfigs(), -- GetConfigs(true) if you want universal configs
+    Flag = "Config Dropdown"
+}
+
+library:ConfigIgnore("Config Dropdown")
+
+local loadconfig = configsection:Button{
+    Name = "Load Config",
+    Callback = function()
+        library:LoadConfig(library.flags["Config Dropdown"]) -- LoadConfig(library.flags["Config Dropdown"], true)  if you want universal configs
+    end
+}
+
+local delconfig = configsection:Button{
+    Name = "Delete Config",
+    Callback = function()
+        library:DeleteConfig(library.flags["Config Dropdown"]) -- DeleteConfig(library.flags["Config Dropdown"], true)  if you want universal configs
+        configlist:Refresh(library:GetConfigs())
+    end
+}
+
+
+local configbox = configsection:Box{
+    Name = "Config Name",
+    Placeholder = "Config Name",
+    Flag = "Config Name"
+}
+
+library:ConfigIgnore("Config Name")
+
+local save = configsection:Button{
+    Name = "Save Config",
+    Callback = function()
+        library:SaveConfig(library.flags["Config Dropdown"] or library.flags["Config Name"]) -- SaveConfig(library.flags["Config Name"], true) if you want universal configs
+        configlist:Refresh(library:GetConfigs())
+    end
+}
+
+local keybindsection = configs:Section{Name = "UI Toggle Keybind", Side = "Left"}
+
+keybindsection:Keybind{
+    Name = "UI Toggle",
+    Flag = "UI Toggle",
+    Default = Enum.KeyCode.RightShift,
+    Blacklist = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.MouseButton3},
+    Callback = function(_, fromsetting)
+        if not fromsetting then
+            library:Close()
+        end
+    end
+}
+--library:Close()
+--library:Unload()
+Sense.Load()
