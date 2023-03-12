@@ -91,7 +91,7 @@ local sslider = aimsec:Slider{
 }
 --fov
 local fovt = aimsec:Toggle{
-    Name = "FOV",
+    Name = "Show FOV",
     Flag = "ShowFOV",
     --Default = true,
     Callback  = function(bool)
@@ -245,6 +245,7 @@ local enam = espsec:Toggle{
         Sense.teamSettings.enemy.name = bool
     end
 }
+-- h
 local ehlt = espsec:Toggle{
     Name = "Health",
     Flag = "View Esp",
@@ -253,6 +254,21 @@ local ehlt = espsec:Toggle{
         Sense.teamSettings.enemy.healthBar = bool
     end
 }
+local epick1 = ehlt:ColorPicker{
+    Default = Color3.fromRGB(35, 232, 101), 
+    Flag = "healthy", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.healthyColor = color
+    end
+}
+local epick2 = ehlt:ColorPicker{
+    Default = Color3.fromRGB(214, 60, 49), 
+    Flag = "xdying", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.dyingColor = color
+    end
+}
+-- end
 local edis = espsec:Toggle{
     Name = "Distance",
     Flag = "View Esp",
@@ -305,6 +321,7 @@ local tnam = espsec:Toggle{
         Sense.teamSettings.friendly.name = bool
     end
 }
+-- health
 local thlt = espsec:Toggle{
     Name = "Health",
     Flag = "View Esp",
@@ -313,6 +330,21 @@ local thlt = espsec:Toggle{
         Sense.teamSettings.friendly.healthBar = bool
     end
 }
+local tpick1 = thlt:ColorPicker{
+    Default = Color3.fromRGB(35, 232, 101), 
+    Flag = "healthy", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.healthyColor = color
+    end
+}
+local tpick2 = thlt:ColorPicker{
+    Default = Color3.fromRGB(214, 60, 49), 
+    Flag = "xdying", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.dyingColor = color
+    end
+}
+-- end health
 local tdis = espsec:Toggle{
     Name = "Distance",
     Flag = "View Esp",
@@ -329,19 +361,71 @@ local tlin = espsec:Toggle{
         Sense.teamSettings.friendly.tracer = bool
     end
 }
-
+-- /////////////////////////////////////////////////////////////////////// ESP CFG
 local esp2sec = visuals:Section{
-    Name = "Other ESP",
+    Name = "Other",
     Side = "Right"
 }
 local seperator2 = esp2sec:Separator("Esp Config")
+local font = esp2sec:Slider{
+    Name = "Font",
+    Text = "[value]/10",
+    Default = 2,
+    Min = 1,
+    Max = 10,
+    Float = 1,
+    Flag = "Font",
+    Callback = function(value)
+        Sense.sharedSettings.textFont = value
+    end
+}
+local fonts = esp2sec:Slider{
+    Name = "Font size",
+    Text = "[value]/30",
+    Default = 12,
+    Min = 5,
+    Max = 30,
+    Float = 1,
+    Flag = "FontSize",
+    Callback = function(value)
+        Sense.sharedSettings.textSize = value
+    end
+}
+local disten = esp2sec:Toggle{
+    Name = "Limit render distance",
+    Flag = "lrd",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.sharedSettings.limitDistance = bool
+    end
+}
+local maxdist = esp2sec:Slider{
+    Name = "Render distance",
+    Text = "[value]/1000",
+    Default = 500,
+    Min = 50,
+    Max = 1000,
+    Float = 50,
+    Flag = "maxdist",
+    Callback = function(value)
+        Sense.sharedSettings.maxDistance = value
+    end
+}
+local teamcolo = esp2sec:Toggle{
+    Name = "Use team colors",
+    Flag = "tc",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.sharedSettings.useTeamColor = bool
+    end
+}
 local tracerdrop = esp2sec:Dropdown{
     Name = "Tracer origin",
-    --Default = "Option 1",
+    Default = "Bottom",
     Content = {
         "Bottom",
-        "Top",
-        "Center"
+        "Top"
+--        "Center"
     },
     Flag = "Dropdown 1",
     Callback = function(option)
