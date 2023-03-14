@@ -285,8 +285,38 @@ local elin = espsec:Toggle{
         Sense.teamSettings.enemy.tracer = bool
     end
 }
+local eosa = espsec:Toggle{
+    Name = "Off screen arrows",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.offScreenArrow = bool
+    end
+}
+local epicker2 = eosa:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.enemy.offScreenArrowColor = { color, 1 }
+    end
+}
+local ewea = espsec:Toggle{
+    Name = "Weapons",
+    Flag = "View Esp",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.enemy.weapon = bool
+    end
+}
+local epicker3 = ewea:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.enemy.weaponColor = { color, 1 }
+    end
+}
 local seperator1 = espsec:Separator("Team")
---team
+-- //////////////////// team
 local etch = espsec:Toggle{
     Name = "Team check",
     Flag = "Show team",
@@ -361,6 +391,36 @@ local tlin = espsec:Toggle{
         Sense.teamSettings.friendly.tracer = bool
     end
 }
+local tosa = espsec:Toggle{
+    Name = "Off screen arrows",
+    Flag = "Show team",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.offScreenArrow = bool
+    end
+}
+local tpicker2 = tosa:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.offScreenArrowColor = { color, 1 }
+    end
+}
+local twea = espsec:Toggle{
+    Name = "Weapons",
+    Flag = "Show team",
+    --Default = true,
+    Callback  = function(bool)
+        Sense.teamSettings.friendly.weapon = bool
+    end
+}
+local tpicker2 = twea:ColorPicker{
+    Default = Color3.fromRGB(255, 255, 255), 
+    Flag = "ChColor", 
+    Callback = function(color)
+        Sense.teamSettings.friendly.weaponColor = { color, 1 }
+    end
+}
 -- /////////////////////////////////////////////////////////////////////// ESP CFG
 local esp2sec = visuals:Section{
     Name = "Other",
@@ -369,10 +429,10 @@ local esp2sec = visuals:Section{
 local seperator2 = esp2sec:Separator("Esp Config")
 local font = esp2sec:Slider{
     Name = "Font",
-    Text = "[value]/10",
+    Text = "[value]/3",
     Default = 2,
     Min = 1,
-    Max = 10,
+    Max = 3,
     Float = 1,
     Flag = "Font",
     Callback = function(value)
@@ -433,69 +493,11 @@ local tracerdrop = esp2sec:Dropdown{
         Sense.teamSettings.friendly.tracerOrigin = tostring(option)
     end
 }
-local seperator2 = esp2sec:Separator("Enemy")
-local eosa = esp2sec:Toggle{
-    Name = "Off screen arrows",
-    Flag = "View Esp",
-    --Default = true,
-    Callback  = function(bool)
-        Sense.teamSettings.enemy.offScreenArrow = bool
-    end
-}
-local epicker2 = eosa:ColorPicker{
-    Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
-    Callback = function(color)
-        Sense.teamSettings.enemy.offScreenArrowColor = { color, 1 }
-    end
-}
-local ewea = esp2sec:Toggle{
-    Name = "Weapons",
-    Flag = "View Esp",
-    --Default = true,
-    Callback  = function(bool)
-        Sense.teamSettings.enemy.weapon = bool
-    end
-}
-local epicker3 = ewea:ColorPicker{
-    Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
-    Callback = function(color)
-        Sense.teamSettings.enemy.weaponColor = { color, 1 }
-    end
-}
-local seperator2 = esp2sec:Separator("Team")
+--local seperator2 = esp2sec:Separator("Enemy")
+
+--local seperator2 = esp2sec:Separator("Team")
 --team
-local tosa = esp2sec:Toggle{
-    Name = "Off screen arrows",
-    Flag = "Show team",
-    --Default = true,
-    Callback  = function(bool)
-        Sense.teamSettings.friendly.offScreenArrow = bool
-    end
-}
-local tpicker2 = tosa:ColorPicker{
-    Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
-    Callback = function(color)
-        Sense.teamSettings.friendly.offScreenArrowColor = { color, 1 }
-    end
-}
-local twea = esp2sec:Toggle{
-    Name = "Weapons",
-    Flag = "Show team",
-    --Default = true,
-    Callback  = function(bool)
-        Sense.teamSettings.friendly.weapon = bool
-    end
-}
-local tpicker2 = twea:ColorPicker{
-    Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
-    Callback = function(color)
-        Sense.teamSettings.friendly.weaponColor = { color, 1 }
-    end
-}
+
 
 -- ////////////////////////////////////////////////// misc
 local misc = main:Tab("Misc")
@@ -528,7 +530,7 @@ local Loop = game:GetService('RunService').Stepped:connect(function()
             end
         end)
 local nclt = mc:Toggle{
-    Name = "Noclip (detected)",
+    Name = "Noclip (blatant)",
     Flag = "nc",
     --Default = true,
     Callback  = function(bool)
