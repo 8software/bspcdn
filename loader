@@ -74,6 +74,21 @@ aimt:Keybind{
         end
     end
 }
+aimt:Dropdown{
+    Default = "MB2",
+    Content = {
+        "MB1",
+        "MB2"
+    },
+    Flag = "aimdropa",
+    Callback = function(option)
+        if option == "MB1" then
+            aimbot.Key = Enum.UserInputType.MouseButton1
+        else
+            aimbot.Key = Enum.UserInputType.MouseButton2
+        end
+    end
+}
 
 local aseperator = aimsec:Separator("Settings")
 
