@@ -30,12 +30,12 @@ aimbot.FOV = 50 -- aimbot fov
 aimbot.FOVCircleColor = Color3.fromRGB(255, 255, 255) -- color of fov circle
 aimbot.ShowFOV = false -- is fov circle visible
 
-local watermark = library:Watermark('baseplate | Arsenal | '.. plr.Name)
+local watermark = library:Watermark('[beta]baseplate | Arsenal | '.. plr.Name)
 -- watermark:Set("Watermark Set")
 -- watermark:Hide() -- toggles watermark
 
 local main = library:Load{
-    Name = "baseplate.win for Arsenal",
+    Name = "[beta]baseplate.win for Arsenal",
     SizeX = 550,
     SizeY = 500,
     Theme = "Default",
@@ -493,10 +493,23 @@ local tracerdrop = esp2sec:Dropdown{
         Sense.teamSettings.friendly.tracerOrigin = tostring(option)
     end
 }
---local seperator2 = esp2sec:Separator("Enemy")
+local seperator2 = esp2sec:Separator("Visuals")
+
+local camfov = esp2sec:Slider{
+    Name = "Camera FOV",
+    Text = "[value]/200",
+    Default = 80,
+    Min = 20,
+    Max = 200,
+    Float = 5,
+    Flag = "camfov",
+    Callback = function(value)
+        game:GetService("Workspace").Camera.FieldOfView = value
+    end
+}
 
 --local seperator2 = esp2sec:Separator("Team")
---team
+-- 
 
 
 -- ////////////////////////////////////////////////// misc
