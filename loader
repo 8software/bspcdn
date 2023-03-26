@@ -30,17 +30,17 @@ aimbot.FOV = 50 -- aimbot fov
 aimbot.FOVCircleColor = Color3.fromRGB(255, 255, 255) -- color of fov circle
 aimbot.ShowFOV = false -- is fov circle visible
 
-local watermark = library:Watermark('[beta]baseplate | Arsenal | '.. plr.Name)
+local watermark = library:Watermark('baseplate | Arsenal | '.. plr.Name)
 -- watermark:Set("Watermark Set")
 -- watermark:Hide() -- toggles watermark
 
 local main = library:Load{
-    Name = "[beta]baseplate.win for Arsenal",
+    Name = "baseplate.win for Arsenal",
     SizeX = 550,
     SizeY = 500,
     Theme = "Default",
     Extension = "json", -- config file extension
-    Folder = "baseplatecfg" -- config folder name
+    Folder = "baseplatears" -- config folder name
 }
 -- library.Extension = "txt" (config file extension)
 -- library.Folder = "config folder name"
@@ -55,7 +55,7 @@ local aimsec = aim:Section{
 
 local aimt = aimsec:Toggle{
     Name = "Aimbot",
-    Flag = "Enable AIM",
+    Flag = "EnableAIM",
     --Default = true,
     Callback  = function(bool)
         aimbot.Enabled = bool
@@ -64,7 +64,7 @@ local aimt = aimsec:Toggle{
 aimt:Keybind{
     Default = Enum.KeyCode.F2,
     Blacklist = {Enum.UserInputType.MouseButton1},
-    Flag = "AIM Keybind",
+    Flag = "AIMKeybind",
     Mode = "Toggle", -- mode to nil if u dont want it to toggle the toggle
     Callback = function(key, fromsetting)
         if fromsetting then
@@ -148,7 +148,7 @@ local adropdown = aimsec:Dropdown{
 --vcheck
 local vict = aimsec:Toggle{
     Name = "Visible check",
-    Flag = "Aim on visibleOnly",
+    Flag = "AimvisibleOnly",
     --Default = true,
     Callback  = function(bool)
         aimbot.VisibilityCheck = bool
@@ -157,7 +157,7 @@ local vict = aimsec:Toggle{
 --teamcheck
 local tect = aimsec:Toggle{
     Name = "Team check",
-    Flag = "dont Aim on tean",
+    Flag = "daot",
     --Default = true,
     Callback  = function(bool)
         aimbot.TeamCheck = bool
@@ -179,7 +179,7 @@ local cht = crosec:Toggle{
 }
 local chpicker1 = cht:ColorPicker{
     Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
+    Flag = "ChColor4", 
     Callback = function(color)
         cross.Color = color
     end
@@ -236,7 +236,7 @@ local eesp = espsec:Toggle{
 }
 local epicker1 = eesp:ColorPicker{
     Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
+    Flag = "ChColor1", 
     Callback = function(color)
         Sense.teamSettings.enemy.boxColor = { color, 1 }
         Sense.teamSettings.enemy.tracerColor = { color, 1 }
@@ -254,7 +254,7 @@ local ebox = espsec:Toggle{
 }
 local enam = espsec:Toggle{
     Name = "Names",
-    Flag = "View Esp",
+    Flag = "ViewEsp",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.enemy.name = bool
@@ -263,7 +263,7 @@ local enam = espsec:Toggle{
 -- h
 local ehlt = espsec:Toggle{
     Name = "Health",
-    Flag = "View Esp",
+    Flag = "ViewhEsp",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.enemy.healthBar = bool
@@ -286,7 +286,7 @@ local epick2 = ehlt:ColorPicker{
 -- end
 local edis = espsec:Toggle{
     Name = "Distance",
-    Flag = "View Esp",
+    Flag = "ViewdEsp",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.enemy.distance = bool
@@ -294,7 +294,7 @@ local edis = espsec:Toggle{
 }
 local elin = espsec:Toggle{
     Name = "Lines",
-    Flag = "View Esp",
+    Flag = "ViewlEsp",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.enemy.tracer = bool
@@ -302,7 +302,7 @@ local elin = espsec:Toggle{
 }
 local eosa = espsec:Toggle{
     Name = "Off screen arrows",
-    Flag = "View Esp",
+    Flag = "ViewscEsp",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.enemy.offScreenArrow = bool
@@ -317,7 +317,7 @@ local epicker2 = eosa:ColorPicker{
 }
 local ewea = espsec:Toggle{
     Name = "Weapons",
-    Flag = "View Esp",
+    Flag = "ViewwEsp",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.enemy.weapon = bool
@@ -334,7 +334,7 @@ local seperator1 = espsec:Separator("Team")
 -- //////////////////// team
 local etch = espsec:Toggle{
     Name = "Team check",
-    Flag = "Show team",
+    Flag = "Showmteam",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.enabled = bool
@@ -352,7 +352,7 @@ local tpicker1 = etch:ColorPicker{
 }
 local tbox = espsec:Toggle{
     Name = "Boxes",
-    Flag = "View Esp",
+    Flag = "tbox",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.box = bool
@@ -360,7 +360,7 @@ local tbox = espsec:Toggle{
 }
 local tnam = espsec:Toggle{
     Name = "Names",
-    Flag = "View Esp",
+    Flag = "tnam",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.name = bool
@@ -369,7 +369,7 @@ local tnam = espsec:Toggle{
 -- health
 local thlt = espsec:Toggle{
     Name = "Health",
-    Flag = "View Esp",
+    Flag = "thlt",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.healthBar = bool
@@ -392,7 +392,7 @@ local tpick2 = thlt:ColorPicker{
 -- end health
 local tdis = espsec:Toggle{
     Name = "Distance",
-    Flag = "View Esp",
+    Flag = "tdis",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.distance = bool
@@ -400,7 +400,7 @@ local tdis = espsec:Toggle{
 }
 local tlin = espsec:Toggle{
     Name = "Lines",
-    Flag = "View Esp",
+    Flag = "tlin",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.tracer = bool
@@ -408,7 +408,7 @@ local tlin = espsec:Toggle{
 }
 local tosa = espsec:Toggle{
     Name = "Off screen arrows",
-    Flag = "Show team",
+    Flag = "tosa",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.offScreenArrow = bool
@@ -416,14 +416,14 @@ local tosa = espsec:Toggle{
 }
 local tpicker2 = tosa:ColorPicker{
     Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
+    Flag = "ChColor2", 
     Callback = function(color)
         Sense.teamSettings.friendly.offScreenArrowColor = { color, 1 }
     end
 }
 local twea = espsec:Toggle{
     Name = "Weapons",
-    Flag = "Show team",
+    Flag = "twea",
     --Default = true,
     Callback  = function(bool)
         Sense.teamSettings.friendly.weapon = bool
@@ -431,7 +431,7 @@ local twea = espsec:Toggle{
 }
 local tpicker2 = twea:ColorPicker{
     Default = Color3.fromRGB(255, 255, 255), 
-    Flag = "ChColor", 
+    Flag = "ChtColor", 
     Callback = function(color)
         Sense.teamSettings.friendly.weaponColor = { color, 1 }
     end
@@ -502,7 +502,7 @@ local tracerdrop = esp2sec:Dropdown{
         "Top"
 --        "Center"
     },
-    Flag = "Dropdown 1",
+    Flag = "Dropdown11",
     Callback = function(option)
         Sense.teamSettings.enemy.tracerOrigin = tostring(option)
         Sense.teamSettings.friendly.tracerOrigin = tostring(option)
